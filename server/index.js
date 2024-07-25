@@ -28,19 +28,21 @@ app.get('/api/weather', async (req, res) => {
   }
 });
 
-// News Route
-app.get('/api/news', async (req, res) => {
+app.get('/api/github', async (req, res) => {
   try {
-    const category = req.query.category || 'general';
-    const apiKey = process.env.NEWS_API_KEY;
-    const response = await axios.get(`https://newsapi.org/v2/top-headlines?category=${category}&apiKey=${apiKey}`);
+    const username = process.env.GITHUB_USERNAME;
+    const token = process.env.GITHUB_API_TOKEN;
+    const response = await axios.get(`https://api.github.com/users/${username}/repos`, {
+      headers: {
+        Authorization: `token ${token}`
+      }
+    });
     res.json(response.data);
   } catch (error) {
-    console.error('Error fetching news data:', error.message);
-    res.status(500).json({ error: 'Failed to fetch news data', details: error.message });
+    console.error('Error fetching GitHub data:', error.message);
+    res.status(500).json({ error: 'Failed to fetch GitHub data', details: error.message });
   }
 });
-
 // The "catchall" handler: for any request that doesn't match any API routes, send back React's index.html file.
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));

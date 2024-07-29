@@ -30,8 +30,8 @@ app.get('/api/weather', async (req, res) => {
 
 app.get('/api/github', async (req, res) => {
   try {
-    const username = process.env.GITHUB_USERNAME;
-    const token = process.env.GITHUB_API_TOKEN;
+    const username = process.env.G_USERNAME;
+    const token = process.env.G_API_TOKEN;
     const response = await axios.get(`https://api.github.com/users/${username}/repos`, {
       headers: {
         Authorization: `token ${token}`
